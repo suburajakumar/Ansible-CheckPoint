@@ -1,0 +1,28 @@
+---
+- name: Disable Checkpoint host
+  hosts: check_point
+  connection: httpapi
+  gather_facts: false
+  vars_prompt:
+    - name: "host_name"
+      prompt: "Enter the host name (leave blank if using IP)"
+      private: false
+    - name: "host_ip"
+      prompt: "Enter the host IP address (leave blank if using name)"
+      private: false
+
+  tasks:
+    - name: "Disable host using host name"
+      when: host_name != ""
+      check_point.mgmt.cp_mgmt_host:
+        auto_publish_session: true
+        state: absent
+        name: "{{ host_name }}"
+
+
+    - name: "Disable host using IP address"
+      when: host_ip != ""
+      check_point.mgmt.cp_mgmt_host:
+        auto_publish_session: true
+        state: absent
+        ip_address: "{{ host_ip }}"

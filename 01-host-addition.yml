@@ -1,0 +1,24 @@
+---
+- name: Add Checkpoint host
+  hosts: check_point
+  connection: httpapi
+  gather_facts: false
+  vars_prompt:
+    - name: "host_name"
+      prompt: "Enter the host name"
+      private: false
+    - name: "host_ip"
+      prompt: "Enter the host IP address"
+      private: false
+    - name: "color"
+      prompt: "Enter the color for the host"
+      private: false
+
+  tasks:
+    - name: Add host
+      check_point.mgmt.cp_mgmt_host:
+        state: present
+        name: "{{ host_name }}"
+        ip_address: "{{ host_ip }}"
+        color: "{{ color }}"
+        auto_publish_session: true

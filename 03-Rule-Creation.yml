@@ -1,0 +1,48 @@
+---
+- name: Disable Checkpoint host
+  hosts: check_point
+  connection: httpapi
+  gather_facts: false
+
+  vars_prompt:
+    - name: "rule_name"
+      prompt: "Enter the rule name"
+      private: false
+    - name: "source"
+      prompt: "Enter the source (e.g., network object)"
+      private: false
+    - name: "destination"
+      prompt: "Enter the destination (e.g., network object)"
+      private: false
+    - name: "service"
+      prompt: "Enter the service (e.g., http, https)"
+      private: false
+    - name: "action"
+      prompt: "Enter the action (e.g., accept, drop)"
+      private: false
+    - name: "position"
+      prompt: "Enter the rule position (e.g., top, bottom, or rule number)"
+      private: false
+    - name: "track"
+      prompt: "Enter the tracking option (e.g., log, falsene)"
+      private: false
+
+  tasks:
+    - name: Create rule
+      check_point.mgmt.cp_mgmt_access_rule:
+        auto_publish_session: true
+        state: present
+        name: "{{ rule_name }}"
+        source: "{{ source }}"
+        destination: "{{ destination }}"
+        service: "{{ service }}"
+        action: "{{ action }}"
+        position: "{{ position }}"
+        track:
+          type: "{{ track }}"
+        layer: "REMOTE_POLICY NETWORK"
+      register: result
+
+    - name: Show result
+      ansible.builtin.debug:
+        msg: result
