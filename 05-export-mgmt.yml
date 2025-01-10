@@ -1,0 +1,11 @@
+---
+- name: Security Rule Facts
+  hosts: check_point
+  connection: httpapi
+  gather_facts: false
+
+  tasks:
+    - name: Export-management
+      check_point.mgmt.cp_mgmt_export_management:
+        file_path: /var/log/domain1_backup.tgz
+        is_domain_backup: true

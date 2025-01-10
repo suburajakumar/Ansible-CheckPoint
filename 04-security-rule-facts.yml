@@ -1,0 +1,26 @@
+---
+- name: Security Rule Facts
+  hosts: check_point
+  connection: httpapi
+  gather_facts: false
+  vars_prompt:
+    - name: "Rule_Name"
+      prompt: "Enter the Rule Name"
+      private: false
+
+  tasks:
+    - name: Show-access-rulebase
+      check_point.mgmt.cp_mgmt_access_rule_facts:
+        details_level: full
+        name: "{{ Rule_Name }}"
+        layer: "REMOTE_POLICY NETWORK"
+      register: result
+
+    - name: Show result
+      ansible.builtin.debug:
+        msg:
+          source: "{{ item.source }}"
+          destination: "{{ item.destination }}"
+          service: "{{ item.service }}"
+          track: "{{ item.track }}"
+      loop: "{{ result.ansible_facts.access_rules }}"
