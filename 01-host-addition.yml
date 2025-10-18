@@ -22,3 +22,4 @@
         ip_address: "{{ host_ip }}"
         color: "{{ color }}"
         auto_publish_session: true
+        domain: "{{ checkpoint_domain }}"
