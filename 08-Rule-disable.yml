@@ -1,0 +1,18 @@
+---
+- name: Disable Checkpoint access rule
+  hosts: Remote_CMA
+  connection: httpapi
+  gather_facts: false
+
+  tasks:
+    - name: Disable access rule by name
+      check_point.mgmt.cp_mgmt_access_rule:
+        name: "{{ rule_name }}"
+        layer: "REMOTE_POLICY NETWORK"
+        enabled: false
+        auto_publish_session: true
+        state: present
+
+    - name: Confirm rule is disabled
+      ansible.builtin.debug:
+        msg: "Rule '{{ rule_name }}' has been disabled in layer 'REMOTE_POLICY NETWORK'."
