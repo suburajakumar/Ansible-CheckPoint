@@ -1,6 +1,6 @@
 ---
 - name: Add Checkpoint host
-  hosts: check_point
+  hosts: Remote_CMA
   connection: httpapi
   gather_facts: false
   vars_prompt:
