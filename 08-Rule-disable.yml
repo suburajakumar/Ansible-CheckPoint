@@ -9,7 +9,7 @@
       check_point.mgmt.cp_mgmt_access_rule:
         name: "{{ rule_name }}"
         layer: "REMOTE_POLICY NETWORK"
-        enabled: false
+        enabled: true
         auto_publish_session: true
         state: present
 
