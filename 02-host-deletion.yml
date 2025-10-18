@@ -13,15 +13,14 @@
 
   tasks:
     - name: "Disable host using host name"
-      when: host_name != ""
+      when: host_name | length > 0
       check_point.mgmt.cp_mgmt_host:
         auto_publish_session: true
         state: absent
         name: "{{ host_name }}"
 
-
     - name: "Disable host using IP address"
-      when: host_ip != ""
+      when: host_name | length == 0 and host_ip | length > 0
       check_point.mgmt.cp_mgmt_host:
         auto_publish_session: true
         state: absent
